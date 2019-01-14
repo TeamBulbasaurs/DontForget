@@ -1,0 +1,31 @@
+{
+  "name": "dontforget",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vwang4536/DontForget.git"
+  },
+  "author": "Darryl Amour, Victor Wang, Tony Hudgins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vwang4536/DontForget/issues"
+  },
+  "homepage": "https://github.com/vwang4536/DontForget#readme",
+  "dependencies": {
+    "apollo": "^2.1.9",
+    "react": "^16.7.0",
+    "react-apollo": "^2.3.3",
+    "react-native": "^0.57.8",
+    "react-router": "^4.3.1",
+    "react-router-native": "^4.3.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
+  }
+}
