@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { Component } from 'react';
 
-class List extends React.Component {
+class List extends Component {
   constructor(props) {
     super(props)
   }
+  render() {
+    return (
+      <div>
+        hey this is the list
+      </div>
+    )
+  }
 }
+
+export default List;
