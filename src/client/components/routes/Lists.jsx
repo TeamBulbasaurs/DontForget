@@ -6,8 +6,9 @@ class Lists extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="listsContainer">
         hey this is the lists route
+        <div onClick={this.props.handleSelectList} className="lists"><input className="listsButton" type="submit" value="List"/></div>
       </div>
     )
   }

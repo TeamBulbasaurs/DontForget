@@ -8,6 +8,7 @@ class List extends Component {
     return (
       <div>
         hey this is the list
+        <div onClick={this.props.handleInvite} className="invite"><input className="inviteButton" type="submit" value="Invite"/></div>
       </div>
     )
   }
