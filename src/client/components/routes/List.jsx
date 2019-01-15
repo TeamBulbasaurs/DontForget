@@ -1,3 +1,7 @@
 import React from 'react'
 
-class Lists
+class List extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+}
