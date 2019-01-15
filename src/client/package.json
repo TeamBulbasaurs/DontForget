@@ -2,11 +2,11 @@
   "name": "dontforget",
   "version": "1.0.0",
   "description": "",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack",
-    "dev": "webpack-dev-server --open --config webpack.config.js --hot"
+    "dev": "webpack-dev-server --open --config webpack.config.js --hot",
+    "start": "nodemon ../server/server.js"
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,12 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/vwang4536/DontForget/issues"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
   },
   "homepage": "https://github.com/vwang4536/DontForget#readme",
   "dependencies": {
@@ -27,6 +33,10 @@
     "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
     "nodemon": "^1.18.9",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1",
