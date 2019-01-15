@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/vwang4536/DontForget#readme",
   "dependencies": {
+    "@material-ui/core": "^3.9.0",
     "apollo": "^2.1.9",
     "react": "^16.7.0",
     "react-apollo": "^2.3.3",
