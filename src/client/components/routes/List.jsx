@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 
 class List extends Component {
   constructor(props) {
@@ -18,8 +19,10 @@ class List extends Component {
             <form>
               <TextField
                 label="List Item"
-                floatingLabelStyle={{ color: 'white' }}
-                onChange={handleItemName}
+                onChange={ handleItemName }
+                variant="outlined"
+                InputProps={{ id: 'listItemText' }}
+                InputLabelProps={{ id: 'listItemLine' }}
               />
               <Button
                 variant="contained"
@@ -52,5 +55,5 @@ class List extends Component {
     )
   }
 }
+export default List
 
-export default List;
