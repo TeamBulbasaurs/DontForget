@@ -15,5 +15,7 @@
   "bugs": {
     "url": "https://github.com/vwang4536/DontForget/issues"
   },
-  "homepage": "https://github.com/vwang4536/DontForget#readme"
+  "homepage": "https://github.com/vwang4536/DontForget#readme",
+  "dependencies": {},
+  "devDependencies": {}
 }
