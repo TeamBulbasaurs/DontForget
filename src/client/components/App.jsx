@@ -10,11 +10,13 @@ import Lists from './routes/Lists.jsx';
 import List from './routes/List.jsx';
 import history from './routes/history.jsx';
 // import { withStyles } from '@material-ui/core/styles';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 const client = new ApolloClient({
   link: new HttpLink({ uri: 'http://localhost:4000/graphql' }),
   cache: new InMemoryCache(),
-})
+});
 
 class App extends Component {
   constructor(props) {
@@ -48,7 +50,7 @@ class App extends Component {
       <Router history={history}>
         <div>
           <AppBar
-            position="Absolute"
+            position="absolute"
             style={
               {
                 backgroundColor: '#28282A',
@@ -103,7 +105,7 @@ class App extends Component {
         </div>
       </Router>
       </ApolloProvider>
-    )
+    );
   }
 }
 

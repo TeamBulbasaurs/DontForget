@@ -4,9 +4,14 @@ import Button from '@material-ui/core/Button';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const LIST_QUERY = gql`
-    query listQuery {
-      
+const ITEMS_QUERY = gql`
+    query itemsQuery {
+      items {
+        itemId
+        itemDescription
+        quantity
+        completed
+      }
     }
 `
 
