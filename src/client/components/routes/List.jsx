@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+
+const LIST_QUERY = gql`
+    query listQuery {
+      
+    }
+`
 
 class List extends Component {
   constructor(props) {

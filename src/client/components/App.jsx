@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
+import AppBar from '@material-ui/core/AppBar';
+import Typography from '@material-ui/core/Typography';
+import { ApolloClient } from 'apollo-client';
+import { ApolloProvider } from 'react-apollo';
 import Groups from './routes/Groups.jsx';
 import Login from './routes/Login.jsx';
 import Lists from './routes/Lists.jsx';
 import List from './routes/List.jsx';
 import history from './routes/history.jsx';
-import AppBar from '@material-ui/core/AppBar';
-import Typography from '@material-ui/core/Typography';
 // import { withStyles } from '@material-ui/core/styles';
+
+const client = new ApolloClient({
+  link: new HttpLink({ uri: 'http://localhost:4000/graphql' }),
+  cache: new InMemoryCache(),
+})
 
 class App extends Component {
   constructor(props) {
@@ -37,6 +44,7 @@ class App extends Component {
   
   render() {
     return (
+      <ApolloProvider client={client}>
       <Router history={history}>
         <div>
           <AppBar
@@ -94,6 +102,7 @@ class App extends Component {
         </div>
         </div>
       </Router>
+      </ApolloProvider>
     )
   }
 }
