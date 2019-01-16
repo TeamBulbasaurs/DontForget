@@ -35,7 +35,7 @@ class Lists extends Component {
                 return <Fragment>
                   {
                     data.lists.map(list => (
-                      <ListDisplay id={list.listId} details={list} />
+                      <ListDisplay id={list.listId} details={list} handleSelectList={this.props.handleSelectList}/>
                     ))
                   }
                 </Fragment>
