@@ -40,8 +40,8 @@ const styles = theme => ({
 });
 
 const ITEMS_QUERY = gql`
-    query itemsQuery {
-      items(listId: "1") {
+    query itemsQuery($listId: String) {
+      items(listId: $listId) {
         itemId
         itemDescription
         quantity
@@ -64,24 +64,27 @@ class List extends Component {
     if (data.loading) {
       return <div>Loading...</div>
     }
-    console.log(data.items[0]["itemDescription"])
+    console.log(data)
     return (
       <div>
-      <div className='listContainer'>{data.items.map()}
+      <div className='listContainer'>
       <Paper className="listerContainer">
             <Table className="displayTabler">
               <TableHead>
                 <TableRow>
                   <CustomTableCell>{parentState.currentListName}</CustomTableCell>
+                  <CustomTableCell align="right"></CustomTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                    <TableRow className="displayTableRow">
+                    {data.items.map((item)=> {return (
+                      <TableRow className="displayTableRow">
                       <CustomTableCell component="th" scope="row">
-                        {this.props.details.notes}
+                      {item.itemDescription}
                       </CustomTableCell>
-                      <CustomTableCell align="right"></CustomTableCell>
-                    </TableRow>
+                      <CustomTableCell align="right">{item.quantity}</CustomTableCell>
+                      </TableRow>
+                    )})}
               </TableBody>
             </Table>
           </Paper>
@@ -132,11 +135,11 @@ class List extends Component {
 const queryOptions = {
   options: props => ({
     variables: {
-      id: props.parentState.currentId,
+      listId: props.parentState.currentId,
     },
   })
 }
-
+console.log(queryOptions)
 List = graphql(ITEMS_QUERY, queryOptions)(List);
 
 export default withStyles(styles)(List);
