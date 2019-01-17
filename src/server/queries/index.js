@@ -3,6 +3,7 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLList,
+  GraphQLNonNull,
 } = require('graphql');
 
 // Connect to DB
@@ -118,6 +119,51 @@ const RootQuery = new GraphQLObjectType({
   },
 });
 
+// Mutation Query
+const MutationQuery = new GraphQLObjectType({
+  name: 'MutationQueryType',
+  fields: {
+    createList: {
+      type: ListType,
+      args: {
+        listName: { type: new GraphQLNonNull(GraphQLString) },
+        notes: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parentValue, args) {
+        // Create a new List
+        return db.oneOrNone(
+          'INSERT INTO "Lists" ("listName", "notes") VALUES ($1, $2) RETURNING "listId", "listName", "notes"',
+          [args.listName, args.notes],
+        )
+          .then(res => res)
+          .catch((err) => {
+            console.error('Error executing Query', err);
+            return err;
+          });
+      },
+    },
+    deleteList: {
+      type: ListType,
+      args: {
+        listId: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parentValue, args) {
+        // Delete a List
+        return db.oneOrNone(
+          'DELETE FROM "Lists" WHERE "listId" = $1',
+          [args.listId],
+        )
+          .then(res => res)
+          .catch((err) => {
+            console.error('Error executing Query', err);
+            return err;
+          });
+      },
+    },
+  },
+});
+
 module.exports = new GraphQLSchema({
   query: RootQuery,
+  mutation: MutationQuery,
 });
