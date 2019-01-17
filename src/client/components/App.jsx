@@ -27,18 +27,27 @@ class App extends Component {
       currentItemName: '',
       currentId: null,
       currentListName: null,
-      inputList: null,
+      inputList: '',
+      inputDescription: ''
     }
-
+    this.handleAddList = this.handleAddList.bind(this);
     this.handleIdAndName = this.handleIdAndName.bind(this);
+    this.handleInputDescription = this.handleInputDescription.bind(this);
     this.handleInputList= this.handleInputList.bind(this);
     this.handleInvite = this.handleInvite.bind(this);
     this.handleItemName = this.handleItemName.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSelectList = this.handleSelectList.bind(this);
   }
+  handleAddList(e) {
+    e.preventDefault();
+    mutate({ variables: { listName: this.state.inputList}})
+  }
   handleIdAndName(id, name) {
     this.setState({ currentId: id, currentListName: name })
+  }
+  handleInputDescription(event) {
+    this.setState({ inputDescription: event.target.value })
   }
   handleInputList(event) {
     this.setState({ inputList: event.target.value })
@@ -93,6 +102,7 @@ class App extends Component {
                   handleSelectList={this.handleSelectList}
                   handleIdAndName={this.handleIdAndName}
                   handleInputList={this.handleInputList}
+                  handleInputDescription={this.handleInputDescription}
                 />
               }
             />

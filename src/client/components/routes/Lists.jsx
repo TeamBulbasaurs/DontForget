@@ -14,12 +14,20 @@ const LISTS_QUERY = gql`
     }
   }
 `
+const ADDLIST_MUTATION = gql`
+  mutation createList($listName: String!, $notes: String!) {
+    createList(listName: $listName, notes: $notes) {
+      listName
+      notes
+    }
+  }
+`
 class Lists extends Component {
   constructor(props) {
     super(props)
   }
   render() {
-    const { handleIdAndName, handleInputList, handleSelectList, parentState } = this.props
+    const { handleIdAndName, handleInputDescription, handleInputList, handleSelectList, parentState } = this.props
     return (
       <div>
         <div className="listsContainer">
@@ -50,6 +58,13 @@ class Lists extends Component {
               InputProps={{ id: 'listItemText' }}
               InputLabelProps={{ id: 'listItemLine' }}
             />
+            <TextField
+              label="Add Description"
+              onChange={ handleInputDescription }
+              variant="outlined"
+              InputProps={{ id: 'listItemText' }}
+              InputLabelProps={{ id: 'listItemLine' }}
+            />
             <Button
             variant="contained"
             color="primary"
@@ -63,4 +78,5 @@ class Lists extends Component {
   }
 }
 
+Lists = graphql(ADDLIST_MUTATION)(Lists);
 export default Lists;
