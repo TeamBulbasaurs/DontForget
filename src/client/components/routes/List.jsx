@@ -58,6 +58,9 @@ const DELETELIST_MUTATION = gql`
     }
   }
 `;
+const ADDITEM_MUTATION = gql`
+  mutation addItem($)
+`
 class List extends Component {
   constructor(props) {
     super(props)
