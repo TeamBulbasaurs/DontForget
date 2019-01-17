@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query, graphql, Mutation } from 'react-apollo';
 import ListDisplay from '../ListDisplay';
 
 const LISTS_QUERY = gql`
@@ -13,17 +14,23 @@ const LISTS_QUERY = gql`
     }
   }
 `
-
+const ADDLIST_MUTATION = gql`
+  mutation createList($listName: String!, $notes: String!) {
+    createList(listName: $listName, notes: $notes) {
+      listName
+      notes
+    }
+  }
+`
 class Lists extends Component {
   constructor(props) {
     super(props)
   }
   render() {
-    const { handleIdAndName, handleSelectList, parentState } = this.props
+    const { handleIdAndName, handleInputDescription, handleInputList, handleSelectList, parentState } = this.props
     return (
       <div>
         <div className="listsContainer">
-          hey this is the lists route
           <div
             onClick={handleSelectList} className="lists"><input className="listsButton" type="submit" value="List"/></div>
           </div>
@@ -44,12 +51,30 @@ class Lists extends Component {
           </Query>
         <div className="panelContainer">
           <form>
-            <Button
-            variant="contained"
-            color="primary"
-            >
-            Add List
-            </Button>
+            <TextField
+              label="Add List"
+              onChange={ handleInputList }
+              variant="outlined"
+              InputProps={{ id: 'listItemText' }}
+              InputLabelProps={{ id: 'listItemLine' }}
+            />
+            <TextField
+              label="Add Description"
+              onChange={ handleInputDescription }
+              variant="outlined"
+              InputProps={{ id: 'listItemText' }}
+              InputLabelProps={{ id: 'listItemLine' }}
+            />
+            <Mutation mutation={ADDLIST_MUTATION} variables={{ listName: parentState.inputList, notes: parentState.inputDescription }}>
+            {addListMutation => 
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={addListMutation}
+              >
+              Add List
+              </Button>}
+            </Mutation>
           </form> 
         </div>
       </div>
