@@ -38,9 +38,10 @@ class App extends Component {
       displayListItems: [],
       currentItemName: '',
       currentId: null,
+      currentListName: null,
     }
 
-    this.handleSetId = this.handleSetId.bind(this);
+    this.handleIdAndName = this.handleIdAndName.bind(this);
     this.handleInvite = this.handleInvite.bind(this);
     this.handleItemName = this.handleItemName.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
@@ -74,9 +75,9 @@ class App extends Component {
   handleSelectList() {
     history.push('/List')
   }
-  handleSetId(id) {
-    console.log('hi', id)
-    this.setState({ currentId: id })
+  handleIdAndName(id, name) {
+    console.log('hi', id, name)
+    this.setState({ currentId: id, currentListName: name })
   }
   
   render() {
@@ -116,7 +117,7 @@ class App extends Component {
                   parentState={this.state}
                   // handleDisplayLists={this.handleDisplayLists}
                   handleSelectList={this.handleSelectList}
-                  handleSetId={this.handleSetId}
+                  handleIdAndName={this.handleIdAndName}
                 />
               }
             />

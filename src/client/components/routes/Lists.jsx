@@ -19,7 +19,7 @@ class Lists extends Component {
     super(props)
   }
   render() {
-    const { handleSetId, handleSelectList, parentState } = this.props
+    const { handleIdAndName, handleSelectList, parentState } = this.props
     return (
       <div>
         <div className="listsContainer">
@@ -35,7 +35,7 @@ class Lists extends Component {
                 return <Fragment>
                   {
                     data.lists.map(list => (
-                      <ListDisplay id={list.listId} details={list} handleSelectList={handleSelectList} handleSetId={handleSetId}/>
+                      <ListDisplay id={list.listId} details={list} handleSelectList={handleSelectList} handleIdAndName={handleIdAndName}/>
                     ))
                   }
                 </Fragment>
