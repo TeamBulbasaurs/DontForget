@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import ListDisplay from '../ListDisplay';
@@ -13,17 +14,15 @@ const LISTS_QUERY = gql`
     }
   }
 `
-
 class Lists extends Component {
   constructor(props) {
     super(props)
   }
   render() {
-    const { handleIdAndName, handleSelectList, parentState } = this.props
+    const { handleIdAndName, handleInputList, handleSelectList, parentState } = this.props
     return (
       <div>
         <div className="listsContainer">
-          hey this is the lists route
           <div
             onClick={handleSelectList} className="lists"><input className="listsButton" type="submit" value="List"/></div>
           </div>
@@ -44,6 +43,13 @@ class Lists extends Component {
           </Query>
         <div className="panelContainer">
           <form>
+            <TextField
+              label="Add List"
+              onChange={ handleInputList }
+              variant="outlined"
+              InputProps={{ id: 'listItemText' }}
+              InputLabelProps={{ id: 'listItemLine' }}
+            />
             <Button
             variant="contained"
             color="primary"
