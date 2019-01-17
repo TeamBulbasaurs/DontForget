@@ -4,26 +4,14 @@ import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import Groups from './routes/Groups.jsx';
 import Login from './routes/Login.jsx';
 import Lists from './routes/Lists.jsx';
 import List from './routes/List.jsx';
 import history from './routes/history.jsx';
-// import { withStyles } from '@material-ui/core/styles';
-import { HttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-// import gql from 'graphql-tag';
-// import { Query } from 'react-apollo';
 
-// const LISTS_QUERY = gql`
-//   query listsQuery {
-//     lists {
-//       listId
-//       listName
-//       notes
-//     }
-//   }
-// `
 
 const client = new ApolloClient({
   link: new HttpLink({ uri: 'http://localhost:4000/graphql' }),
@@ -39,30 +27,31 @@ class App extends Component {
       currentItemName: '',
       currentId: null,
       currentListName: null,
+      inputList: '',
+      inputDescription: ''
     }
-
+    this.handleAfterDeleteList = this.handleAfterDeleteList.bind(this);
     this.handleIdAndName = this.handleIdAndName.bind(this);
+    this.handleInputDescription = this.handleInputDescription.bind(this);
+    this.handleInputList= this.handleInputList.bind(this);
     this.handleInvite = this.handleInvite.bind(this);
     this.handleItemName = this.handleItemName.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleResetCurrent = this.handleResetCurrent.bind(this);
     this.handleSelectList = this.handleSelectList.bind(this);
   }
-  // handleDisplayLists() {
-  //   return (<Query query={LISTS_QUERY}>
-  //           {
-  //             ({ loading, error, data }) => {
-  //               if (loading) return <h4>Loading...</h4>
-  //               if (error) console.log(error);
-  //               console.log('hello?')
-  //               this.setState({
-  //                 displayLists: data.lists,
-  //               })
-  //             }
-  //           }
-  //   </Query>)
-  //   console.log('its me')
-  //   console.log(this.state.displayLists)
-  // }
+  handleAfterDeleteList() {
+    history.push('/Lists');
+  }
+  handleIdAndName(id, name) {
+    this.setState({ currentId: id, currentListName: name })
+  }
+  handleInputDescription(event) {
+    this.setState({ inputDescription: event.target.value })
+  }
+  handleInputList(event) {
+    this.setState({ inputList: event.target.value })
+  }
   handleInvite() {
     history.push('/Groups')
   }
@@ -72,12 +61,11 @@ class App extends Component {
   handleLogin() {
     history.push('/Lists')
   }
+  handleResetCurrent() {
+    this.setState({ currentId: null, currentListName: null })
+  }
   handleSelectList() {
     history.push('/List')
-  }
-  handleIdAndName(id, name) {
-    console.log('hi', id, name)
-    this.setState({ currentId: id, currentListName: name })
   }
   
   render() {
@@ -107,7 +95,6 @@ class App extends Component {
                 <Login {...props}
                   parentState={this.state}
                   handleLogin={this.handleLogin}
-                  // handleDisplayLists={this.handleDisplayLists}
                 />
               }
             />
@@ -115,9 +102,11 @@ class App extends Component {
               render={(props) =>
                 <Lists {...props}
                   parentState={this.state}
-                  // handleDisplayLists={this.handleDisplayLists}
-                  handleSelectList={this.handleSelectList}
+                  handleAddList={this.handleAddList}
                   handleIdAndName={this.handleIdAndName}
+                  handleInputList={this.handleInputList}
+                  handleInputDescription={this.handleInputDescription}
+                  handleSelectList={this.handleSelectList}
                 />
               }
             />
@@ -125,8 +114,10 @@ class App extends Component {
               render={(props) =>
                 <List {...props}
                   parentState={this.state}
+                  handleAfterDeleteList={this.handleAfterDeleteList}
                   handleInvite={this.handleInvite}
                   handleItemName={this.handleItemName}
+                  handleResetCurrent={this.handleResetCurrent}
                 /> 
               }
             />
@@ -149,4 +140,3 @@ class App extends Component {
 }
 
 export default App;
-// export default withStyles(styles)(App);
