@@ -37,7 +37,7 @@ class ListDisplay extends Component {
     render() {
         return (
           <Paper className="tableContainer">
-            <Table className="displayTable" onClick={this.props.handleSelectList}>
+            <Table className="displayTable" onClick={()=>{this.props.handleSetId(this.props.details.listId); this.props.handleSelectList()}}>
               <TableHead>
                 <TableRow>
                   <CustomTableCell>{this.props.details.listName}</CustomTableCell>

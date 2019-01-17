@@ -19,23 +19,23 @@ class Lists extends Component {
     super(props)
   }
   render() {
+    const { handleSetId, handleSelectList, parentState } = this.props
     return (
       <div>
         <div className="listsContainer">
           hey this is the lists route
           <div
-            onClick={this.props.handleSelectList} className="lists"><input className="listsButton" type="submit" value="List"/></div>
+            onClick={handleSelectList} className="lists"><input className="listsButton" type="submit" value="List"/></div>
           </div>
           <Query query={LISTS_QUERY}>
             {
               ({ loading, error, data }) => {
                 if (loading) return <h4>Loading...</h4>
                 if (error) console.log(error);
-                
                 return <Fragment>
                   {
                     data.lists.map(list => (
-                      <ListDisplay id={list.listId} details={list} handleSelectList={this.props.handleSelectList}/>
+                      <ListDisplay id={list.listId} details={list} handleSelectList={handleSelectList} handleSetId={handleSetId}/>
                     ))
                   }
                 </Fragment>

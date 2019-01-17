@@ -8,7 +8,7 @@ class Login extends Component {
     return (
       <div className="loginContainer">
         hello
-        <div onClick={this.props.handleLogin} className="login"><input className="loginButton" type="submit" value="Log In"/></div>
+        <div onClick={this.props.handleLogin()} className="login"><input className="loginButton" type="submit" value="Log In"/></div>
       </div>
     )
   }

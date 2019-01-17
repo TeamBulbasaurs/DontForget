@@ -12,6 +12,18 @@ import history from './routes/history.jsx';
 // import { withStyles } from '@material-ui/core/styles';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+// import gql from 'graphql-tag';
+// import { Query } from 'react-apollo';
+
+// const LISTS_QUERY = gql`
+//   query listsQuery {
+//     lists {
+//       listId
+//       listName
+//       notes
+//     }
+//   }
+// `
 
 const client = new ApolloClient({
   link: new HttpLink({ uri: 'http://localhost:4000/graphql' }),
@@ -25,12 +37,31 @@ class App extends Component {
       displayLists: [],
       displayListItems: [],
       currentItemName: '',
+      currentId: null,
     }
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleSelectList = this.handleSelectList.bind(this);
+
+    this.handleSetId = this.handleSetId.bind(this);
     this.handleInvite = this.handleInvite.bind(this);
     this.handleItemName = this.handleItemName.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleSelectList = this.handleSelectList.bind(this);
   }
+  // handleDisplayLists() {
+  //   return (<Query query={LISTS_QUERY}>
+  //           {
+  //             ({ loading, error, data }) => {
+  //               if (loading) return <h4>Loading...</h4>
+  //               if (error) console.log(error);
+  //               console.log('hello?')
+  //               this.setState({
+  //                 displayLists: data.lists,
+  //               })
+  //             }
+  //           }
+  //   </Query>)
+  //   console.log('its me')
+  //   console.log(this.state.displayLists)
+  // }
   handleInvite() {
     history.push('/Groups')
   }
@@ -42,6 +73,10 @@ class App extends Component {
   }
   handleSelectList() {
     history.push('/List')
+  }
+  handleSetId(id) {
+    console.log('hi', id)
+    this.setState({ currentId: id })
   }
   
   render() {
@@ -71,6 +106,7 @@ class App extends Component {
                 <Login {...props}
                   parentState={this.state}
                   handleLogin={this.handleLogin}
+                  // handleDisplayLists={this.handleDisplayLists}
                 />
               }
             />
@@ -78,7 +114,9 @@ class App extends Component {
               render={(props) =>
                 <Lists {...props}
                   parentState={this.state}
+                  // handleDisplayLists={this.handleDisplayLists}
                   handleSelectList={this.handleSelectList}
+                  handleSetId={this.handleSetId}
                 />
               }
             />
