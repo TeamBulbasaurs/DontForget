@@ -11,6 +11,7 @@ import Login from './routes/Login.jsx';
 import Lists from './routes/Lists.jsx';
 import List from './routes/List.jsx';
 import history from './routes/history.jsx';
+// import DELETELIST_MUTATION from '../apollo/mutations';
 
 
 const client = new ApolloClient({
@@ -28,18 +29,26 @@ class App extends Component {
       currentId: null,
       currentListName: null,
       inputList: '',
-      inputDescription: ''
+      inputDescription: '',
+      inputItemName: '',
+      inputQuantity: null,
     }
+    // this.test = this.test.bind(this);
     this.handleAfterDeleteList = this.handleAfterDeleteList.bind(this);
     this.handleIdAndName = this.handleIdAndName.bind(this);
     this.handleInputDescription = this.handleInputDescription.bind(this);
     this.handleInputList= this.handleInputList.bind(this);
+    this.handleInputItem = this.handleInputItem.bind(this);
+    this.handleInputQuantity = this.handleInputQuantity.bind(this);
     this.handleInvite = this.handleInvite.bind(this);
     this.handleItemName = this.handleItemName.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleResetCurrent = this.handleResetCurrent.bind(this);
     this.handleSelectList = this.handleSelectList.bind(this);
   }
+  // test() {
+  //   DELETELIST_MUTATION({variables: { listId: this.state.currentId }})
+  // }
   handleAfterDeleteList() {
     history.push('/Lists');
   }
@@ -47,10 +56,16 @@ class App extends Component {
     this.setState({ currentId: id, currentListName: name })
   }
   handleInputDescription(event) {
-    this.setState({ inputDescription: event.target.value })
+    this.setState({ inputDescription: event.target.value });
   }
   handleInputList(event) {
     this.setState({ inputList: event.target.value })
+  }
+  handleInputItem(event) {
+    this.setState({ inputItemName: event.target.value })
+  }
+  handleInputQuantity(event) {
+    this.setState({ inputQuantity: event.target.value })
   }
   handleInvite() {
     history.push('/Groups')
@@ -115,9 +130,12 @@ class App extends Component {
                 <List {...props}
                   parentState={this.state}
                   handleAfterDeleteList={this.handleAfterDeleteList}
+                  handleInputItem={this.handleInputItem}
+                  handleInputQuantity={this.handleInputQuantity}
                   handleInvite={this.handleInvite}
                   handleItemName={this.handleItemName}
                   handleResetCurrent={this.handleResetCurrent}
+                  // test={this.test}
                 /> 
               }
             />

@@ -59,7 +59,14 @@ const DELETELIST_MUTATION = gql`
   }
 `;
 const ADDITEM_MUTATION = gql`
-  mutation addItem($)
+  mutation addItem($listId: String!, $itemDescription: String!, $quantity: Float!, $completed: Boolean!) {
+    addItem(listId: $listId, itemDescription: $itemDescription, quantity: $quantity, completed: $completed) {
+      listId
+      itemDescription
+      quantity
+      completed
+    }
+  }
 `
 class List extends Component {
   constructor(props) {
@@ -68,11 +75,14 @@ class List extends Component {
   render() {
     const {
       handleAfterDeleteList,
+      handleInputItem,
+      handleInputQuantity,
       handleInvite,
       handleItemName,
       handleResetCurrent,
       parentState,
-      data
+      data,
+      // test
     } = this.props;
     if (data.loading) {
       return <div>Loading...</div>
@@ -106,23 +116,42 @@ class List extends Component {
             <form>
               <TextField
                 label="List Item"
-                onChange={ handleItemName }
+                onChange={ handleInputItem }
                 variant="outlined"
                 InputProps={{ id: 'listItemText' }}
                 InputLabelProps={{ id: 'listItemLine' }}
               />
+              <TextField
+                label="Item Quantity"
+                onChange={ handleInputQuantity }
+                variant="outlined"
+                InputProps={{ id: 'listItemText' }}
+                InputLabelProps={{ id: 'listItemLine' }}
+              />
+              <Mutation mutation={ADDITEM_MUTATION} variables={{ listId: parentState.currentId, itemDescription: parentState.inputItemName, quantity: parentState.inputQuantity, completed: false}}>
+              {addItem =>
               <Button
                 variant="contained"
                 color="primary"
+                onClick={addItem}
               >
               Add Item
               </Button>
+              }
+              </Mutation>
               <Button
                 variant="contained"
                 color="primary"
               >
               Delete Item
               </Button>
+              {/* <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={test}
+                >
+                  Delete Listy
+                </Button> */}
               <Mutation mutation={DELETELIST_MUTATION} variables={{ listId: parentState.currentId }}>
                 {deleteList => 
                   <Button

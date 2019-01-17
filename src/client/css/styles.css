@@ -28,6 +28,7 @@ h5 {
     width: 80%;
     position: fixed;
     background: #1e1e1e;
+    overflow: scroll;
 }
 
 .panelContainer {
