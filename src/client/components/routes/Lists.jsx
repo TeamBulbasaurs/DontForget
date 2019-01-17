@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query, graphql, Mutation } from 'react-apollo';
 import ListDisplay from '../ListDisplay';
 
 const LISTS_QUERY = gql`
@@ -65,12 +65,16 @@ class Lists extends Component {
               InputProps={{ id: 'listItemText' }}
               InputLabelProps={{ id: 'listItemLine' }}
             />
-            <Button
-            variant="contained"
-            color="primary"
-            >
-            Add List
-            </Button>
+            <Mutation mutation={ADDLIST_MUTATION} variables={{ listName: parentState.inputList, notes: parentState.inputDescription }}>
+            {addListMutation => 
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={addListMutation}
+              >
+              Add List
+              </Button>}
+            </Mutation>
           </form> 
         </div>
       </div>
@@ -78,5 +82,4 @@ class Lists extends Component {
   }
 }
 
-Lists = graphql(ADDLIST_MUTATION)(Lists);
 export default Lists;

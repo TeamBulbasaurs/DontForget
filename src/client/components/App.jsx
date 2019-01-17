@@ -30,18 +30,18 @@ class App extends Component {
       inputList: '',
       inputDescription: ''
     }
-    this.handleAddList = this.handleAddList.bind(this);
+    this.handleAfterDeleteList = this.handleAfterDeleteList.bind(this);
     this.handleIdAndName = this.handleIdAndName.bind(this);
     this.handleInputDescription = this.handleInputDescription.bind(this);
     this.handleInputList= this.handleInputList.bind(this);
     this.handleInvite = this.handleInvite.bind(this);
     this.handleItemName = this.handleItemName.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleResetCurrent = this.handleResetCurrent.bind(this);
     this.handleSelectList = this.handleSelectList.bind(this);
   }
-  handleAddList(e) {
-    e.preventDefault();
-    mutate({ variables: { listName: this.state.inputList}})
+  handleAfterDeleteList() {
+    history.push('/Lists');
   }
   handleIdAndName(id, name) {
     this.setState({ currentId: id, currentListName: name })
@@ -60,6 +60,9 @@ class App extends Component {
   }
   handleLogin() {
     history.push('/Lists')
+  }
+  handleResetCurrent() {
+    this.setState({ currentId: null, currentListName: null })
   }
   handleSelectList() {
     history.push('/List')
@@ -99,10 +102,11 @@ class App extends Component {
               render={(props) =>
                 <Lists {...props}
                   parentState={this.state}
-                  handleSelectList={this.handleSelectList}
+                  handleAddList={this.handleAddList}
                   handleIdAndName={this.handleIdAndName}
                   handleInputList={this.handleInputList}
                   handleInputDescription={this.handleInputDescription}
+                  handleSelectList={this.handleSelectList}
                 />
               }
             />
@@ -110,8 +114,10 @@ class App extends Component {
               render={(props) =>
                 <List {...props}
                   parentState={this.state}
+                  handleAfterDeleteList={this.handleAfterDeleteList}
                   handleInvite={this.handleInvite}
                   handleItemName={this.handleItemName}
+                  handleResetCurrent={this.handleResetCurrent}
                 /> 
               }
             />

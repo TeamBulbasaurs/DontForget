@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import gql from 'graphql-tag';
-import { Query, graphql } from 'react-apollo';
+import { Query, graphql, Mutation } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -48,23 +48,32 @@ const ITEMS_QUERY = gql`
         completed
       }
     }
-`
-
+`;
+const DELETELIST_MUTATION = gql`
+  mutation deleteList($listId: String!) {
+    deleteList(listId: $listId) {
+      listId
+      listName
+      notes
+    }
+  }
+`;
 class List extends Component {
   constructor(props) {
     super(props)
   }
   render() {
     const {
+      handleAfterDeleteList,
       handleInvite,
       handleItemName,
+      handleResetCurrent,
       parentState,
       data
     } = this.props;
     if (data.loading) {
       return <div>Loading...</div>
     }
-    console.log(data)
     return (
       <div>
       <div className='listContainer'>
@@ -111,12 +120,17 @@ class List extends Component {
               >
               Delete Item
               </Button>
-              <Button
-                variant="contained"
-                color="primary"
-              >
-              Delete List
-              </Button>
+              <Mutation mutation={DELETELIST_MUTATION} variables={{ listId: parentState.currentId }}>
+                {deleteList => 
+                  <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={()=>{deleteList(), handleResetCurrent(), handleAfterDeleteList()}}
+                >
+                  Delete List
+                </Button>
+                }
+              </Mutation>
             </form>
             <Button
               variant="contained"
