@@ -2,6 +2,8 @@ const {
   GraphQLSchema,
   GraphQLObjectType,
   GraphQLString,
+  GraphQLFloat,
+  GraphQLBoolean,
   GraphQLList,
   GraphQLNonNull,
 } = require('graphql');
@@ -101,6 +103,27 @@ const RootQuery = new GraphQLObjectType({
           });
       },
     },
+    userLists: {
+      type: new GraphQLList(ListType),
+      args: {
+        userId: { type: GraphQLString },
+      },
+      resolve(parentValue, args) {
+        // Retrieve all Lists belonging to a particular user
+        return db.manyOrNone(
+          'SELECT "Lists"."listId", "Lists"."listName", "Lists"."notes"'
+          + ' FROM "Lists", "ListGroup"'
+          + ' WHERE "ListGroup"."userId" = $1'
+          + ' AND "ListGroup"."listId" = "Lists"."listId"',
+          [args.userId],
+        )
+          .then(res => res)
+          .catch((err) => {
+            console.error('Error executing Query', err);
+            return err;
+          });
+      },
+    },
     user: {
       type: UserType,
       args: {
@@ -132,8 +155,54 @@ const MutationQuery = new GraphQLObjectType({
       resolve(parentValue, args) {
         // Create a new List
         return db.oneOrNone(
-          'INSERT INTO "Lists" ("listName", "notes") VALUES ($1, $2) RETURNING "listId", "listName", "notes"',
+          'INSERT INTO "Lists" ("listName", "notes")'
+          + ' VALUES ($1, $2)'
+          + ' RETURNING "listId", "listName", "notes"',
           [args.listName, args.notes],
+        )
+          .then(res => res)
+          .catch((err) => {
+            console.error('Error executing Query', err);
+            return err;
+          });
+      },
+    },
+    createItem: {
+      type: ItemType,
+      args: {
+        listId: { type: new GraphQLNonNull(GraphQLString) },
+        itemDescription: { type: new GraphQLNonNull(GraphQLString) },
+        quantity: { type: new GraphQLNonNull(GraphQLFloat) },
+        completed: { type: new GraphQLNonNull(GraphQLBoolean) },
+      },
+      resolve(parentValue, args) {
+        // Create an Item
+        return db.oneOrNone(
+          'INSERT INTO "Items" ("listId", "itemDescription", "quantity", "completed")'
+          + ' VALUES ($1, $2, $3, $4)'
+          + ' RETURNING "listId", "itemId", "itemDescription", "quantity", "completed"',
+          [args.listId, args.itemDescription, args.quantity, args.completed],
+        )
+          .then(res => res)
+          .catch((err) => {
+            console.error('Error executing Query', err);
+            return err;
+          });
+      },
+    },
+    createListUser: {
+      type: ListGroupType,
+      args: {
+        listId: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parentValue, args) {
+        // Create a List User
+        return db.oneOrNone(
+          'INSERT INTO "ListGroup" ("listId", "userId")'
+          + ' VALUES ($1, $2)'
+          + ' RETURNING "listId", "userId"',
+          [args.listId, args.userId],
         )
           .then(res => res)
           .catch((err) => {
@@ -152,6 +221,43 @@ const MutationQuery = new GraphQLObjectType({
         return db.oneOrNone(
           'DELETE FROM "Lists" WHERE "listId" = $1',
           [args.listId],
+        )
+          .then(res => res)
+          .catch((err) => {
+            console.error('Error executing Query', err);
+            return err;
+          });
+      },
+    },
+    deleteItem: {
+      type: ItemType,
+      args: {
+        itemId: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parentValue, args) {
+        // Delete an Item
+        return db.oneOrNone(
+          'DELETE FROM "Items" WHERE "itemId" = $1',
+          [args.itemId],
+        )
+          .then(res => res)
+          .catch((err) => {
+            console.error('Error executing Query', err);
+            return err;
+          });
+      },
+    },
+    deleteListUser: {
+      type: ListGroupType,
+      args: {
+        listId: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parentValue, args) {
+        // Delete a List User
+        return db.oneOrNone(
+          'DELETE FROM "ListGroup" WHERE "listId" = $1 AND "userId" = $2',
+          [args.listId, args.userId],
         )
           .then(res => res)
           .catch((err) => {
