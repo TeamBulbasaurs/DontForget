@@ -1,7 +1,7 @@
 console.log("in config/passport.js")
 //const passport = require('passport');
 console.log("in config/passport.js line 3")
-//const GoogleStrategy = require('passport-google-oauth').OAuth2Strateg
+//const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 console.log("in config/passport.js line 5")
 
 passport.serializeUser(function(user, done) {
