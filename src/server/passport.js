@@ -1,8 +1,9 @@
 console.log("in config/passport.js")
-//const passport = require('passport');
+const passport = require('passport');
 console.log("in config/passport.js line 3")
-//const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 console.log("in config/passport.js line 5")
+const { OAUTH2_CLIENT_ID, OAUTH2_CLIENT_SECRET, OAUTH2_CALLBACK } = require('../config/keys');
 
 passport.serializeUser(function(user, done) {
   done(null, user);

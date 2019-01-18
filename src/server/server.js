@@ -1,11 +1,12 @@
 const express = require('express');
 const expressGraphQL = require('express-graphql');
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strateg
 const cors = require('cors');
+const sgMail = require('@sendgrid/mail');
+const bodyParser = require('body-parser');
 
 // Retrieve Configuration Keys
-const { SERVER_PORT } = require('../config/keys');
+const { SERVER_PORT, SENDGRID_API_KEY } = require('../config/keys');
 
 // Root Query schema
 const schema = require('./queries');
@@ -26,7 +27,7 @@ app.use(
 );
 console.log("in server.js line 26")
 app.use(passport.initialize()); // does this require express.static?
-require('../config/passport');
+require('./passport');
 console.log("in server.js line 29")
 
 /* GET Google Authentication API. */
@@ -41,6 +42,21 @@ app.get(
   function(req, res) {
     const token = req.user.token;
     res.redirect('http://localhost:8080?token=' + token);
+  }
+);
+
+// using SendGrid's v3 Node.js Library
+// https://github.com/sendgrid/sendgrid-nodejs
+sgMail.setApiKey(SENDGRID_API_KEY);
+
+app.post(
+  '/invite', 
+  bodyParser.json(), 
+  function(req, res) {
+    const { to, from, subject, text, html } = req.body
+    const msg = { to, from, subject, text, html };
+    sgMail.send(msg);
+    res.send("OK")
   }
 );
 
