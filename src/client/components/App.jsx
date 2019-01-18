@@ -82,7 +82,7 @@ class App extends Component {
               }
             }
             >
-            <Typography variant="h5" color="inherit">
+            <Typography variant="h6" color="inherit">
               DontForget
             </Typography>
           </AppBar>
