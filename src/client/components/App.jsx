@@ -6,6 +6,8 @@ import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import queryString from 'query-string';
+
 import Groups from './routes/Groups.jsx';
 import Login from './routes/Login.jsx';
 import Lists from './routes/Lists.jsx';
@@ -67,7 +69,14 @@ class App extends Component {
   handleSelectList() {
     history.push('/List')
   }
-  
+  handleAuthenticate() {
+    this.props.history.push('/oAuth');
+  };
+
+  componentDidUpdate () {
+
+  }
+
   render() {
     return (
       <ApolloProvider client={client}>
@@ -82,7 +91,7 @@ class App extends Component {
               }
             }
             >
-            <Typography variant="h5" color="inherit">
+            <Typography variant="h6" color="inherit">
               DontForget
             </Typography>
           </AppBar>
