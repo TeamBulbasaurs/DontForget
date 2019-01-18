@@ -6,10 +6,13 @@ class Login extends Component {
   }
   render() {
     return (
-      <div className="loginContainer">
-        hello
-        <div onClick={this.props.handleLogin} className="login"><input className="loginButton" type="submit" value="Log In"/></div>
-      </div>
+      <div>
+        <div>
+          <a href="http://localhost:4000/auth/google/" >
+            <div><input className="loginButton" value="Sign in with Google" type="submit" /></div>
+          </a>
+        </div> 
+     </div>
     )
   }
 }
